@@ -1,32 +1,32 @@
 #!/usr/bin/python
 
 import torch
-import torch.nn as nn
-from torch.nn import init
-import functools
-from torch.optim import lr_scheduler
+# import torch.nn as nn
+# from torch.nn import init
+# import functools
+# from torch.optim import lr_scheduler
 # from util.image_pool import ImagePool
 from collections import OrderedDict
-import time
+# import time
 # from options.train_options import TrainOptions
-from collections import defaultdict
-import h5py
+# from collections import defaultdict
+# import h5py
 import scipy.io
 from torch.autograd import Variable
-import torch.optim as optim
-import numpy as np
-import torchvision
+# import torch.optim as optim
+# import numpy as np
+# import torchvision
 import os
-from easydict import EasyDict as edict
-import random
-import matplotlib.pyplot as plt
-import sys
-import ntpath
-import time
-from scipy.misc import imresize
-import json
+# from easydict import EasyDict as edict
+# import random
+# import matplotlib.pyplot as plt
+# import sys
+# import ntpath
+# import time
+# from scipy.misc import imresize
+# import json
 
-from utils import *
+import utils
 
 class ModelADT():
     def name(self):
@@ -56,7 +56,7 @@ class ModelADT():
         self.visual_names = ['output']
         
 
-        self.net = get_model_funct(self.opt.net)(self.opt, self.gpu_ids)
+        self.net = utils.get_model_funct(self.opt.net)(self.opt, self.gpu_ids)
         self.net = self.net.to(self.device)
 
         if self.isTrain:
@@ -77,13 +77,16 @@ class ModelADT():
 
             # initialize optimizers
             self.optimizers = []
-            self.optimizer = torch.optim.Adam(self.net.parameters(),lr=opt.lr, betas=(opt.beta1, 0.999), weight_decay=opt.weight_decay)
+            self.optimizer = torch.optim.Adam(self.net.parameters(),lr=opt.lr, \
+                                              betas=(opt.beta1, 0.999), \
+                                              weight_decay=opt.weight_decay)
             self.optimizers.append(self.optimizer)
 
     # load and print networks; create schedulers
     def setup(self, opt, parser=None):
         if self.isTrain:
-            self.schedulers = [get_scheduler(optimizer, opt) for optimizer in self.optimizers]
+            self.schedulers = [utils.get_scheduler(optimizer, opt) \
+                               for optimizer in self.optimizers]
 
         if not self.isTrain or opt.continue_train:
             self.load_networks(opt.starting_epoch_count)
@@ -156,10 +159,12 @@ class ModelADT():
     def __patch_instance_norm_state_dict(self, state_dict, module, keys, i=0):
         key = keys[i]
         if i + 1 == len(keys):  # at the end, pointing to a parameter/buffer
-            if module.__class__.__name__.startswith('InstanceNorm') and (key == 'running_mean' or key == 'running_var'):
+            if module.__class__.__name__.startswith('InstanceNorm') \
+                and (key == 'running_mean' or key == 'running_var'):
                 if getattr(module, key) is None:
                     state_dict.pop('.'.join(keys))
-            if module.__class__.__name__.startswith('InstanceNorm') and (key == 'num_batches_tracked'):
+            if module.__class__.__name__.startswith('InstanceNorm') \
+                and (key == 'num_batches_tracked'):
                 state_dict.pop('.'.join(keys))
         else:
             self.__patch_instance_norm_state_dict(state_dict, getattr(module, key), keys, i + 1)
@@ -196,7 +201,8 @@ class ModelADT():
             num_params += param.numel()
         if verbose:
             print(net)
-        print('[Network %s] Total number of parameters : %.3f M' % (name, num_params / 1e6))
+        print('[Network %s] Total number of parameters : %.3f M' % \
+                (name, num_params / 1e6))
         print('-----------------------------------------------')
 
     # set requies_grad=Fasle to avoid computation

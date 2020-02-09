@@ -1,37 +1,32 @@
 #!/usr/bin/python
 # coding: utf-8
 
-# In[1]:
-
-
-import torch
+import torch.cat
 import torch.nn as nn
-from torch.nn import init
+# from torch.nn import init
 import functools
-from torch.optim import lr_scheduler
+# from torch.optim import lr_scheduler
 # from util.image_pool import ImagePool
-from collections import OrderedDict
-import time
+# from collections import OrderedDict
+# import time
 # from options.train_options import TrainOptions
-from collections import defaultdict
-import h5py
-import scipy.io
-from torch.autograd import Variable
-import torch.optim as optim
-import numpy as np
-import torchvision
-import os
-from easydict import EasyDict as edict
-import random
-import matplotlib.pyplot as plt
-import sys
-import ntpath
-import time
-from scipy.misc import imresize
-import json
+# from collections import defaultdict
+# import h5py
+# import scipy.io
+# from torch.autograd import Variable
+# import torch.optim as optim
+# import numpy as np
+# import torchvision
+# import os
+# from easydict import EasyDict as edict
+# import random
+# import matplotlib.pyplot as plt
+# import sys
+# import ntpath
+# import time
+# from scipy.misc import imresize
+# import json
 
-
-# In[2]:
 
 
 # Defines the generator that consists of Resnet blocks between a few
@@ -39,7 +34,8 @@ import json
 # Code and idea originally from Justin Johnson's architecture.
 # https://github.com/jcjohnson/fast-neural-style/
 class ResnetGenerator(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='zero'):
+    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, \
+                 use_dropout=False, n_blocks=6, padding_type='zero'):
         assert(n_blocks >= 0)
         super(ResnetGenerator, self).__init__()
         self.input_nc = input_nc
@@ -70,7 +66,9 @@ class ResnetGenerator(nn.Module):
 
         mult = 2**n_downsampling
         for i in range(n_blocks):
-            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResnetBlock(ngf * mult, padding_type=padding_type, \
+                                  norm_layer=norm_layer, use_dropout=use_dropout, \
+                                  use_bias=use_bias)]
 
         for i in range(n_downsampling):
             mult = 2**(n_downsampling - i)
@@ -90,7 +88,8 @@ class ResnetGenerator(nn.Module):
         return self.model(input)
 
 class ResnetGenerator2(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='zero'):
+    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, \
+                 use_dropout=False, n_blocks=6, padding_type='zero'):
         assert(n_blocks >= 0)
         super(ResnetGenerator2, self).__init__()
         self.input_nc = input_nc
@@ -121,7 +120,9 @@ class ResnetGenerator2(nn.Module):
 
         mult = 2**n_downsampling
         for i in range(n_blocks):
-            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResnetBlock(ngf * mult, padding_type=padding_type, \
+                                  norm_layer=norm_layer, use_dropout=use_dropout,\
+                                  use_bias=use_bias)]
 
         for i in range(n_downsampling):
             mult = 2**(n_downsampling - i)
@@ -142,7 +143,8 @@ class ResnetGenerator2(nn.Module):
 
 
 class ResnetEncoder(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='zero'):
+    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, \
+                  use_dropout=False, n_blocks=6, padding_type='zero'):
         assert(n_blocks >= 0)
         super(ResnetEncoder, self).__init__()
         self.input_nc = input_nc
@@ -173,7 +175,8 @@ class ResnetEncoder(nn.Module):
 
         mult = 2**n_downsampling
         for i in range(n_blocks):
-            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResnetBlock(ngf * mult, padding_type=padding_type, \
+                      norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
         self.model = nn.Sequential(*model)
 
@@ -181,7 +184,8 @@ class ResnetEncoder(nn.Module):
         return self.model(input)
 
 class ResnetDecoder(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=9, padding_type='zero', encoder_blocks=6):
+    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, \
+                  use_dropout=False, n_blocks=9, padding_type='zero', encoder_blocks=6):
         assert(n_blocks >= 0)
         super(ResnetDecoder, self).__init__()
         self.input_nc = input_nc
@@ -201,7 +205,8 @@ class ResnetDecoder(nn.Module):
         for i in range(n_blocks):
             if i <= encoder_blocks:
                 continue
-            model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
+            model += [ResnetBlock(ngf * mult, padding_type=padding_type, \
+                      norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
         for i in range(n_downsampling):
             mult = 2**(n_downsampling - i)
@@ -219,14 +224,13 @@ class ResnetDecoder(nn.Module):
 
     def forward(self, input):
         return self.model(input)
-# In[3]:
-
 
 # Define a resnet block
 class ResnetBlock(nn.Module):
     def __init__(self, dim, padding_type, norm_layer, use_dropout, use_bias):
         super(ResnetBlock, self).__init__()
-        self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, use_dropout, use_bias)
+        self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, \
+                                                use_dropout, use_bias)
 
     def build_conv_block(self, dim, padding_type, norm_layer, use_dropout, use_bias):
         conv_block = []
@@ -265,9 +269,6 @@ class ResnetBlock(nn.Module):
         return out
 
 
-# In[4]:
-
-
 # Defines the Unet generator.
 # |num_downs|: number of downsamplings in UNet. For example,
 # if |num_downs| == 7, image of size 128x128 will become of size 1x1
@@ -278,13 +279,25 @@ class UnetGenerator(nn.Module):
         super(UnetGenerator, self).__init__()
 
         # construct unet structure
-        unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True)
+        unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, \
+                                              submodule=None, \
+                                              norm_layer=norm_layer, innermost=True)
         for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout)
-        unet_block = UnetSkipConnectionBlock(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(output_nc, ngf, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
+            unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, \
+                                                  submodule=unet_block, \
+                                                  norm_layer=norm_layer, use_dropout=use_dropout)
+        unet_block = UnetSkipConnectionBlock(ngf * 4, ngf * 8, input_nc=None, \
+                                              submodule=unet_block, \
+                                              norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(ngf * 2, ngf * 4, input_nc=None, \
+                                              submodule=unet_block, \
+                                              norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(ngf, ngf * 2, input_nc=None, \
+                                              submodule=unet_block, \
+                                              norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(output_nc, ngf, input_nc=input_nc, \
+                                              submodule=unet_block, \
+                                              outermost=True, norm_layer=norm_layer)
 
         self.model = unet_block
 
@@ -292,15 +305,13 @@ class UnetGenerator(nn.Module):
         return self.model(input)
 
 
-# In[5]:
-
-
 # Defines the submodule with skip connection.
 # X -------------------identity---------------------- X
 #   |-- downsampling -- |submodule| -- upsampling --|
 class UnetSkipConnectionBlock(nn.Module):
-    def __init__(self, outer_nc, inner_nc, input_nc=None,
-                 submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
+    def __init__(self, outer_nc, inner_nc, input_nc=None, \
+                 submodule=None, outermost=False, innermost=False, \
+                 norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(UnetSkipConnectionBlock, self).__init__()
         self.outermost = outermost
         if type(norm_layer) == functools.partial:
