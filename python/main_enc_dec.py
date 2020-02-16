@@ -32,7 +32,7 @@ import modelADT
 # from LocationNetworks import *
 import data_loader
 # from joint_model import *
-from params import *
+from params import opt_exp, opt_gen
 
 
 print('Entered Main')

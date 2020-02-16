@@ -26,12 +26,12 @@ import torch
 # from scipy.misc import imresize
 # import json
 
-from utils import *
-from modelADT import ModelADT
-from Generators import *
-from LocationNetworks import *
-from data_loader import *
-from params import *
+# from utils import *
+# from modelADT import ModelADT
+# from Generators import *
+# from LocationNetworks import *
+# from data_loader import *
+# from params import *
 
 
 class Enc_Dec_Network():
@@ -89,8 +89,6 @@ class Enc_Dec_Network():
         self.encoder.forward()
         self.decoder.set_data(self.encoder.output, self.target)
         self.decoder.forward()
-
-
 
 class Enc_2Dec_Network():
 

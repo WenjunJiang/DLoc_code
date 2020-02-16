@@ -1,32 +1,8 @@
-
-import torch
-import torch.nn as nn
-from torch.nn import init
-import functools
-from torch.optim import lr_scheduler
-# from util.image_pool import ImagePool
-from collections import OrderedDict
-import time
-# from options.train_options import TrainOptions
-from collections import defaultdict
-import h5py
-import scipy.io
-from torch.autograd import Variable
-import torch.optim as optim
-import numpy as np
-import torchvision
-import os
 from easydict import EasyDict as edict
-import random
-import matplotlib.pyplot as plt
-import sys
-import ntpath
-import time
-from scipy.misc import imresize
-import json
 
-
-
+#######################
+### Common Options ####
+#######################
 opt_exp = edict()
 
 opt_exp.isTrain = False
@@ -48,8 +24,9 @@ opt_exp.results_dir = './results' + "/" + opt_exp.name
 opt_exp.log_dir = "./logs" + "/" + opt_exp.name
 opt_exp.batch_size = 32
 
-
-# In[13]:
+#######################
+### Encoder Options ###
+#######################
 # define base_options
 opt_encoder = edict()
 
@@ -103,7 +80,9 @@ opt_encoder.suffix ='' #default='', type=str, help='customized suffix: opt.name 
 
 
 
-# In[13]:
+#######################
+### Decoder Options ###
+#######################
 # define base_options
 opt_decoder = edict()
 
@@ -157,7 +136,9 @@ opt_decoder.suffix ='' #default='', type=str, help='customized suffix: opt.name 
 
 
 
-# In[13]:
+##########################
+# Offset-Decoder Options #
+##########################
 # define base_options
 opt_offset_decoder = edict()
 
@@ -197,8 +178,6 @@ opt_offset_decoder.name = 'offset_decoder' #type=str, default='experiment_name',
 opt_offset_decoder.loss_type = "L2_offset_loss"
 opt_offset_decoder.niter = 20 #type=int, default=100, help='# of iter at starting learning rate')
 opt_offset_decoder.niter_decay = 100 #type=int, default=100, help='# of iter to linearly decay learning rate to zero')
-
-
 
 opt_offset_decoder.gpu_ids = opt_offset_decoder.parent_exp.gpu_ids #type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
 opt_offset_decoder.num_threads = 4 #default=4, type=int, help='# threads for loading data')

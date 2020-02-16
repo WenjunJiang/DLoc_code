@@ -27,13 +27,13 @@ import os
 # import json
 import hdf5storage
 
-from utils import *
+import utils
 from modelADT import ModelADT
-from Generators import *
-from LocationNetworks import *
+# from Generators import *
+# from LocationNetworks import *
 import data_loader
-from joint_model import *
-from params import *
+import joint_model
+from params import opt_exp, opt_encoder, opt_decoder, opt_offset_decoder
 
 def train(model, loaded_data, loaded_test_data, input_index=1, output_index=2, \
             offset_output_index=0):
@@ -55,9 +55,9 @@ def train(model, loaded_data, loaded_test_data, input_index=1, output_index=2, \
             model.set_input(data[input_index], data[output_index], data[offset_output_index], \
                             shuffle_channel=False)
             model.optimize_parameters()
-            enc_outputs = model.encoder.output
+            # enc_outputs = model.encoder.output
             dec_outputs = model.decoder.output
-            off_dec_outputs = model.offset_decoder.output
+            # off_dec_outputs = model.offset_decoder.output
             error.extend(utils.localization_error(dec_outputs.data.cpu().numpy(), \
                                                 data[output_index].cpu().numpy(), \
                                                 scale=0.1))
@@ -246,8 +246,8 @@ offset_dec_model = ModelADT()
 offset_dec_model.initialize(opt_offset_decoder)
 offset_dec_model.setup(opt_offset_decoder)
 print('Making the joint_model')
-joint_model = Enc_2Dec_Network()
-joint_model.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
+jointModel = joint_model.Enc_2Dec_Network()
+jointModel.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
                         frozen_dec = opt_exp.isFrozen, gpu_ids = opt_exp.gpu_ids)
 
 
@@ -303,7 +303,7 @@ if "rw_train" in opt_exp.phase:
         offset_dec_model.load_networks(opt_offset_decoder.starting_epoch_count)
 
     if opt_exp.isTrain:
-        train(joint_model, train_loader, test_loader, \
+        train(jointModel, train_loader, test_loader, \
             input_index=1, output_index=2, offset_output_index=0)
 
 elif "rw_test" in opt_exp.phase:
@@ -328,9 +328,9 @@ elif "rw_test" in opt_exp.phase:
     enc_model.load_networks(enc_model.opt.starting_epoch_count)
     dec_model.load_networks(dec_model.opt.starting_epoch_count)
     offset_dec_model.load_networks(opt_offset_decoder.starting_epoch_count)
-    joint_model.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
+    jointModel.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
                             frozen_dec = opt_exp.isFrozen, \
                             gpu_ids = opt_exp.gpu_ids)
 
-    test(joint_model, test_loader, input_index=1, output_index=2, \
+    test(jointModel, test_loader, input_index=1, output_index=2, \
         offset_output_index=0, save_output=True)
