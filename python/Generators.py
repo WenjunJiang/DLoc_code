@@ -1,6 +1,3 @@
-#!/usr/bin/python
-# coding: utf-8
-
 import torch.cat
 import torch.nn as nn
 # from torch.nn import init
