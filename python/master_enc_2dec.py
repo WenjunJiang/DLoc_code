@@ -5,10 +5,11 @@ from shutil import copyfile
 import time
 
 experiments = ["e19"]
-sequence_of_exec = ["real2dec_train","real2dec_test","real2dec_disjoint_test"
-					"real2dec_test_1env","real2dec_test_3env","real2dec_test_4env"]
+sequence_of_exec = ["real2dec_train","real2dec_test"]
+#  ,"real2dec_disjoint_test"
+#  					"real2dec_test_1env","real2dec_test_3env","real2dec_test_4env"]
 
-params_dir = "./params_future/"
+params_dir = "./params/"
 
 for i, e in enumerate(experiments):
 

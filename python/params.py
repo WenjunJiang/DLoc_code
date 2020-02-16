@@ -1,22 +1,22 @@
-from easydict import EasyDict as edict
 
-#######################
-### Common Options ####
-#######################
+import os
+from easydict import EasyDict as edict
+import json
+
 opt_exp = edict()
 
-opt_exp.isTrain = False
+opt_exp.isTrain = True
 opt_exp.continue_train = False #action='store_true', help='continue training: load the latest model')
-opt_exp.starting_epoch_count = 'best' #type=int, default=1, help='the starting epoch count, we save the model by <starting_epoch_count>, <starting_epoch_count>+<save_latest_freq>, ...')
-opt_exp.isTrainGen = False
-opt_exp.isTrainLoc = False
+opt_exp.starting_epoch_count = 0 #type=int, default=1, help='the starting epoch count, we save the model by <starting_epoch_count>, <starting_epoch_count>+<save_latest_freq>, ...')
+opt_exp.isTrainGen = True
+opt_exp.isTrainLoc = True
 opt_exp.isFrozen = False
 opt_exp.isFrozen_gen = False
 opt_exp.n_epochs = 50
-opt_exp.data = "data_segment"
+opt_exp.data = "rw_to_rw"
 opt_exp.gpu_ids = ['1','2','3','0']
 
-opt_exp.phase = 'rw_test_disjoint' #type=str, default='train', help='train, val, test, etc')
+opt_exp.phase = 'rw_train' #type=str, default='train', help='train, val, test, etc')
 opt_exp.name = 'e19_real2dec_train' #type=str, default='train', help='train, val, test, etc')
 
 opt_exp.checkpoints_dir = './checkpoints' + "/" + opt_exp.name#type=str, default='./checkpoints', help='models are saved here')
@@ -24,9 +24,8 @@ opt_exp.results_dir = './results' + "/" + opt_exp.name
 opt_exp.log_dir = "./logs" + "/" + opt_exp.name
 opt_exp.batch_size = 32
 
-#######################
-### Encoder Options ###
-#######################
+
+# In[13]:
 # define base_options
 opt_encoder = edict()
 
@@ -80,9 +79,7 @@ opt_encoder.suffix ='' #default='', type=str, help='customized suffix: opt.name 
 
 
 
-#######################
-### Decoder Options ###
-#######################
+# In[13]:
 # define base_options
 opt_decoder = edict()
 
@@ -136,9 +133,7 @@ opt_decoder.suffix ='' #default='', type=str, help='customized suffix: opt.name 
 
 
 
-##########################
-# Offset-Decoder Options #
-##########################
+# In[13]:
 # define base_options
 opt_offset_decoder = edict()
 
@@ -178,6 +173,8 @@ opt_offset_decoder.name = 'offset_decoder' #type=str, default='experiment_name',
 opt_offset_decoder.loss_type = "L2_offset_loss"
 opt_offset_decoder.niter = 20 #type=int, default=100, help='# of iter at starting learning rate')
 opt_offset_decoder.niter_decay = 100 #type=int, default=100, help='# of iter to linearly decay learning rate to zero')
+
+
 
 opt_offset_decoder.gpu_ids = opt_offset_decoder.parent_exp.gpu_ids #type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
 opt_offset_decoder.num_threads = 4 #default=4, type=int, help='# threads for loading data')

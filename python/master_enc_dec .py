@@ -7,7 +7,7 @@ import time
 experiments = ["e15"]
 sequence_of_exec = ["realgen_train","realgen_test"]
 
-params_dir = "./params_future/"
+params_dir = "./params/"
 
 for i, e in enumerate(experiments):
 
