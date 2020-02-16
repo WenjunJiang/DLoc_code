@@ -14,8 +14,8 @@ opt_exp.isTrainGen = True
 opt_exp.isTrainLoc = True
 opt_exp.isFrozen = False
 opt_exp.isFrozen_gen = False
-opt_exp.n_epochs = 50
-opt_exp.data = "rw_to_rw"
+opt_exp.n_epochs = 1
+opt_exp.data = "rw_to_rw_atk_noref"
 opt_exp.gpu_ids = ['0','1','2']
 
 opt_exp.phase = 'rw_train' #type=str, default='train', help='train, val, test, etc')
@@ -56,7 +56,7 @@ opt_gen.input_nc = 4 #type=int, default=3, help='# of input image channels')
 opt_gen.output_nc = 1 #type=int, default=3, help='# of output image channels')
 opt_gen.save_latest_freq = 5000 #type=int, default=5000, help='frequency of saving the latest results')
 opt_gen.save_epoch_freq = 1 #type=int, default=5, help='frequency of saving checkpoints at the end of epochs')
-opt_gen.n_epochs = 50
+opt_gen.n_epochs = opt_gen.parent_exp.n_epochs
 opt_gen.isTrain = True
 opt_gen.continue_train = False #action='store_true', help='continue training: load the latest model')
 opt_gen.starting_epoch_count = opt_gen.parent_exp.starting_epoch_count #type=int, default=1, help='the starting epoch count, we save the model by <starting_epoch_count>, <starting_epoch_count>+<save_latest_freq>, ...')

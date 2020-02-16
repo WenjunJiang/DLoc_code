@@ -1,4 +1,4 @@
-import torch.cat
+from torch import cat
 import torch.nn as nn
 # from torch.nn import init
 import functools
@@ -356,5 +356,5 @@ class UnetSkipConnectionBlock(nn.Module):
         if self.outermost:
             return self.model(x)
         else:
-            return torch.cat([x, self.model(x)], 1)
+            return cat([x, self.model(x)], 1)
 

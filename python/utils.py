@@ -52,46 +52,46 @@ def define_G(opt, gpu_ids):
     # if opt.base_model == 'resnet_9blocks':
     #     net = Generators.ResnetGenerator(opt.input_nc, opt.output_nc, opt.ngf, \
     #                                      norm_layer=norm_layer, \
-    #                                      use_dropout=opt.use_dropout, \
+    #                                      use_dropout=opt.no_dropout, \
     #                                      n_blocks=9)
     if opt.base_model == 'resnet_nblocks':
         # n_blocks    = opt.resnet_blocks
         net = Generators.ResnetGenerator(opt.input_nc, opt.output_nc, opt.ngf, \
                                          norm_layer=norm_layer, \
-                                         use_dropout=opt.use_dropout, \
+                                         use_dropout=opt.no_dropout, \
                                          n_blocks= opt.resnet_blocks)
     elif opt.base_model == 'resnet2_nblocks':
         # n_blocks    = opt.resnet_blocks
         net = Generators.ResnetGenerator2(opt.input_nc, opt.output_nc, opt.ngf, \
                                           norm_layer=norm_layer, \
-                                          use_dropout=opt.use_dropout, \
+                                          use_dropout=opt.no_dropout, \
                                           n_blocks= opt.resnet_blocks)
     # elif opt.base_model == 'resnet_6blocks':
     #     net = Generators.ResnetGenerator(opt.input_nc, opt.output_nc, opt.ngf, \
     #                                      norm_layer=opt.norm_layer, \
-    #                                      use_dropout=opt.use_dropout, \
+    #                                      use_dropout=opt.no_dropout, \
     #                                      n_blocks=6)
     elif opt.base_model == 'resnet_encoder':
         # n_blocks    = opt.resnet_blocks
         net = Generators.ResnetEncoder(opt.input_nc, opt.output_nc, opt.ngf, \
                                        norm_layer=norm_layer, \
-                                       use_dropout=opt.use_dropout, \
+                                       use_dropout=opt.no_dropout, \
                                        n_blocks= opt.resnet_blocks)
     elif opt.base_model == 'resnet_decoder':
         # n_blocks    = opt.resnet_blocks
         net = Generators.ResnetDecoder(opt.input_nc, opt.output_nc, opt.ngf, \
                                        norm_layer=norm_layer, \
-                                       use_dropout=opt.use_dropout, \
+                                       use_dropout=opt.no_dropout, \
                                        n_blocks= opt.resnet_blocks, \
                                        encoder_blocks=opt.encoder_res_blocks)
     elif opt.base_model == 'unet_128':
         net = Generators.UnetGenerator(opt.input_nc, opt.output_nc, 7, opt.ngf, \
                                        norm_layer=norm_layer, \
-                                       use_dropout=opt.use_dropout)
+                                       use_dropout=opt.no_dropout)
     elif opt.base_model == 'unet_256':
         net = Generators.UnetGenerator(opt.input_nc, opt.output_nc, 8, opt.ngf, \
                                        norm_layer=norm_layer, \
-                                       use_dropout=opt.use_dropout)
+                                       use_dropout=opt.no_dropout)
     else:
         raise NotImplementedError('Generator model name [%s] is not recognized' \
                                   %(opt.base_model))

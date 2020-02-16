@@ -5,7 +5,8 @@ from shutil import copyfile
 import time
 
 experiments = ["e15"]
-sequence_of_exec = ["realgen_train","realgen_test"]
+sequence_of_exec = ["realgen_test"]
+USE_PYTHON3_EXPLICIT = True
 
 params_dir = "./params/"
 
@@ -17,8 +18,13 @@ for i, e in enumerate(experiments):
 		dst = "./params.py"
 		if not os.path.isfile(src):
 			continue
-		print(src, dst)
+		# print(src, dst)
 		copyfile(src, dst)
 		print("copied params, calling main on them")
-		os.system('python main_enc_dec.py')
+
+		if(USE_PYTHON3_EXPLICIT):
+			print("Using Explicit call to python3")
+			os.system('python3 main_enc_dec.py')
+		else:
+			os.system('python main_enc_dec.py')		
 		time.sleep(10)

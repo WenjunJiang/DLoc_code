@@ -40,7 +40,7 @@ class ModelADT():
         self.cross_loss_weight = opt.lambda_cross
         self.device = torch.device('cuda:{}'.format(self.gpu_ids[0])) # if self.gpu_ids else torch.device('cpu')
         
-        print(self.device)
+        # print(self.device)
         self.model_name = self.opt.name
         self.save_dir = os.path.join(self.opt.checkpoints_save_dir, self.model_name)
         self.load_dir = os.path.join(self.opt.checkpoints_load_dir, self.model_name)
@@ -183,7 +183,7 @@ class ModelADT():
             del state_dict._metadata
 
         # patch InstanceNorm checkpoints prior to 0.4
-        print(state_dict.keys())
+        # print(state_dict.keys())
         for key in list(state_dict.keys()):  # need to copy keys here because we mutate in loop
             self.__patch_instance_norm_state_dict(state_dict, net, key.split('.'))
         net.load_state_dict(state_dict)

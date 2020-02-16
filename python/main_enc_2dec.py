@@ -1,3 +1,5 @@
+import sys
+print(sys.path)
 import torch
 # import torch.nn as nn
 # from torch.nn import init
@@ -267,9 +269,9 @@ if "rw_train" in opt_exp.phase:
     train_loader =torch.utils.data.DataLoader(train_data, \
                                             batch_size=opt_exp.batch_size, \
                                             shuffle=True)
-    print(A_train.shape)
-    print(B_train.shape)
-    print(labels_train.shape)
+    # print(A_train.shape)
+    # print(B_train.shape)
+    # print(labels_train.shape)
     dataset_size = len(train_loader)
     print('#training images = %d' % dataset_size)
 
@@ -287,9 +289,9 @@ if "rw_train" in opt_exp.phase:
     test_loader =torch.utils.data.DataLoader(test_data, \
                                             batch_size=opt_exp.batch_size, \
                                             shuffle=False)
-    print(A_test.shape)
-    print(B_test.shape)
-    print(labels_test.shape)
+    # print(A_test.shape)
+    # print(B_test.shape)
+    # print(labels_test.shape)
     dataset_size = len(test_loader)
     print('#testing images = %d' % dataset_size)
 
