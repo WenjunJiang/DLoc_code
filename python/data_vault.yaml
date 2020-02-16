@@ -1,0 +1,50 @@
+---
+# Data File paths
+# Please append you own datasets below and use them for training and testing. 
+# The following data sets have been provided, please check the README.md for 
+# more information. 
+
+# Data for encoder/two decoder model, as presented in DLoc paper. 
+enc_2dec:
+    rw_to_rw: 
+        trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat']
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_jacobs_July28_2.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_jacobs_July28_2.mat']
+
+    data_segment: 
+        trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28_2.mat']
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28_2.mat']
+
+    1st_environment: 
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_1.mat']
+
+    2nd_environment: 
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_2.mat']
+
+    3rd_environment: 
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
+
+    4th_environment: 
+        trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_4_ref.mat']
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_4_ref.mat']
+
+    rw_to_rw_env: 
+        trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
+                '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
+                '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat',
+                '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_1.mat']
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
+
+# data for encoder/decoder model, missing the offset-decoder
+enc_dec: 
+    rw_to_rw_atk_noref: 
+        trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_July18.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_July18.mat']
+        testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_July18.mat',
+                    '/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_July18.mat']
+
+...

@@ -1,35 +1,12 @@
 import torch
-# import torch.nn as nn
-# from torch.nn import init
-# import functools
-# from torch.optim import lr_scheduler
-# from util.image_pool import ImagePool
-# from collections import OrderedDict
 import time
-# from options.train_options import TrainOptions
-# from collections import defaultdict
-# import h5py
 import scipy.io
-# from torch.autograd import Variable
-# import torch.optim as optim
 import numpy as np  
-# import torchvision
 import os
-# from easydict import EasyDict as edict
-# import random
-# import matplotlib.pyplot as plt
-# import sys
-# import ntpath
-# import time
-# from scipy.misc import imresize
-# import json
 
 import utils 
 import modelADT
-# from Generators import *
-# from LocationNetworks import *
 import data_loader
-# from joint_model import *
 from params import opt_exp, opt_gen
 
 

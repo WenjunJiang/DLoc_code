@@ -1,6 +1,5 @@
 import os
 from shutil import copyfile
-# from subprocess import call
 import time
 
 experiments = ["e19"]
