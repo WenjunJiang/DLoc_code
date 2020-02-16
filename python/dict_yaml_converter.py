@@ -2,6 +2,7 @@ import sys
 import yaml
 import os
 import importlib
+from collections import OrderedDict 
 #%%
 data_dir = '/home/aarun/Research/DLoc_code/python/params/'
 data_dir_yaml = '/home/aarun/Research/DLoc_code/python/params_yaml/'
@@ -34,6 +35,6 @@ for fname in files:
             data = {'opt_exp': opt_exp, 'opt_decoder': opt_decoder, \
                 'opt_encoder': opt_encoder, \
                 'opt_offset_decoder': opt_offset_decoder}
-        yaml.dump(data, file, default_flow_style=False)
+        yaml.dump(dict(data), file, default_flow_style=False)
 #%%
         

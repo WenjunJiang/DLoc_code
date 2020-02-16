@@ -12,25 +12,31 @@ enc_2dec:
                     '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat']
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_jacobs_July28_2.mat',
                     '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_jacobs_July28_2.mat']
+        msg: 'Real World to Real World experiments'
 
     data_segment: 
         trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28.mat',
                     '/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28_2.mat']
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28.mat',
                     '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28_2.mat']
+        msg: 'non-FOV to non-FOV experiments'
 
     1st_environment: 
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_1.mat']
+        msg: 'Across environments testing for env1'
 
     2nd_environment: 
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_2.mat']
+        msg: 'Across environments testing for env2'
 
     3rd_environment: 
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
+        msg: 'Across environments testing for env3'
 
     4th_environment: 
         trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_4_ref.mat']
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_4_ref.mat']
+        msg: 'Adding a reflector data for env4'
 
     rw_to_rw_env: 
         trainpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
@@ -38,6 +44,7 @@ enc_2dec:
                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat',
                 '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_1.mat']
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
+        msg: 'Real World to Real World experiments'
 
 # data for encoder/decoder model, missing the offset-decoder
 enc_dec: 
@@ -46,5 +53,6 @@ enc_dec:
                     '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_July18.mat']
         testpath: ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_July18.mat',
                     '/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_July18.mat']
+        msg: 'Real World to Real World experiments'
 
 ...

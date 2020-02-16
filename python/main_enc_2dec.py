@@ -5,6 +5,7 @@ import time
 import numpy as np  
 import os
 import hdf5storage
+import yaml
 
 import utils
 from modelADT import ModelADT
@@ -157,46 +158,60 @@ def test(model, loaded_data, input_index=1, output_index=2,  offset_output_index
     return total_loss, median_error
 
 # TODO see if this can be fixed
-if "data" in opt_exp and opt_exp.data == "rw_to_rw":
-    trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat']
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_jacobs_July28_2.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_jacobs_July28_2.mat']
-    print('Real World to Real World experiments started')
+# if "data" in opt_exp and opt_exp.data == "rw_to_rw":
+#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat']
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_jacobs_July28_2.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_jacobs_July28_2.mat']
+#     print('Real World to Real World experiments started')
 
-elif "data" in opt_exp and opt_exp.data == "data_segment":
-    trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28_2.mat']
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28_2.mat']
-    print('non-FOV to non-FOV experiments started')
+# elif "data" in opt_exp and opt_exp.data == "data_segment":
+#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_July28_2.mat']
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_July28_2.mat']
+#     print('non-FOV to non-FOV experiments started')
 
-elif "data" in opt_exp and opt_exp.data == "1st_environment":
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_1.mat']
-    print('Across environments testing for env1 started')
+# elif "data" in opt_exp and opt_exp.data == "1st_environment":
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_1.mat']
+#     print('Across environments testing for env1 started')
 
-elif "data" in opt_exp and opt_exp.data == "2nd_environment":
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_2.mat']
-    print('Across environments testing for env12started')
+# elif "data" in opt_exp and opt_exp.data == "2nd_environment":
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_2.mat']
+#     print('Across environments testing for env12started')
 
-elif "data" in opt_exp and opt_exp.data == "3rd_environment":
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
-    print('Across environments testing for env3 started')
+# elif "data" in opt_exp and opt_exp.data == "3rd_environment":
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat']
+#     print('Across environments testing for env3 started')
 
-elif "data" in opt_exp and opt_exp.data == "4th_environment":
-    trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_4_ref.mat']
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_4_ref.mat']
-    print('Adding a reflector data for env4 started')
+# elif "data" in opt_exp and opt_exp.data == "4th_environment":
+#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_4_ref.mat']
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_test_jacobs_Aug16_4_ref.mat']
+#     print('Adding a reflector data for env4 started')
 
-elif "data" in opt_exp and opt_exp.data == "rw_to_rw_env":
-    trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_1.mat']
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat',]
-    print('Real World to Real World experiments started')       
+# elif "data" in opt_exp and opt_exp.data == "rw_to_rw_env":
+#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_edit_jacobs_July28.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_jacobs_July28_2.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_jacobs_July28_2.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_1.mat']
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_train_jacobs_Aug16_3.mat',]
+#     print('Real World to Real World experiments started')       
 
+with open('data_vault.yaml') as file: 
+    data_locs = yaml.safe_load(file)
+
+try:
+    if 'trainpath' in data_locs['enc_2dec'][opt_exp.data]:
+        trainpath = data_locs['enc_2dec'][opt_exp.data]['trainpath']
+    if 'testpath' in data_locs['enc_2dec'][opt_exp.data]:
+        testpath = data_locs['enc_2dec'][opt_exp.data]['testpath']
+    if 'msg' in data_locs['enc_2dec'][opt_exp.data]:
+        print(data_locs['enc_2dec'][opt_exp.data]['msg'])
+    else: 
+        print('Train/test paths loaded. Experiment started.')
+except:
+    print("ERROR: Does %s exist in the data vault under correct network?"%opt_exp.data)
 
 # # if opt_exp.phase != "train" or opt_exp.isTrainGen:
 # if opt_exp.isTrainGen:

@@ -3,6 +3,7 @@ import time
 import scipy.io
 import numpy as np  
 import os
+import yaml
 
 import utils 
 import modelADT
@@ -128,19 +129,32 @@ def eval(model, loaded_data, input_index=0, output_index=1, max_data_to_run = -1
     return total_loss, median_error
 
 # TODO Fix here
-if "data" in opt_exp and opt_exp.data == "rw_to_rw_atk_noref":
-    trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_July18.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_July18.mat']
-    testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_July18.mat',
-                '/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_July18.mat']
-    print('Real World to Real World experiments started')
+# if "data" in opt_exp and opt_exp.data == "rw_to_rw_atk_noref":
+#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_July18.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_July18.mat']
+#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_July18.mat',
+#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_July18.mat']
+#     print('Real World to Real World experiments started')
+with open('data_vault.yaml') as file: 
+    data_locs = yaml.safe_load(file)
 
+try:
+    if 'trainpath' in data_locs['enc_dec'][opt_exp.data]:
+        trainpath = data_locs['enc_dec'][opt_exp.data]['trainpath']
+    if 'testpath' in data_locs['enc_dec'][opt_exp.data]:
+        testpath = data_locs['enc_dec'][opt_exp.data]['testpath']
+    if 'msg' in data_locs['enc_dec'][opt_exp.data]:
+        print(data_locs['enc_dec'][opt_exp.data]['msg'])
+    else: 
+        print('Train/test paths loaded. Experiment started.')
+except:
+    print("ERROR: Does %s exist in the data vault under correct network?"%opt_exp.data)
 
-if opt_exp.phase != "train" or opt_exp.isTrainGen:
-    gen_model = modelADT.ModelADT()
-    gen_model.initialize(opt_gen)
-    gen_model.setup(opt_gen)
-    print('Model has been set up')
+# if opt_exp.phase != "train" or opt_exp.isTrainGen:
+gen_model = modelADT.ModelADT()
+gen_model.initialize(opt_gen)
+gen_model.setup(opt_gen)
+print('Model has been set up')
 
 #### main training/testing code
 
