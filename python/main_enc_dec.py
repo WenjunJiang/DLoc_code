@@ -128,13 +128,7 @@ def eval(model, loaded_data, input_index=0, output_index=1, max_data_to_run = -1
 
     return total_loss, median_error
 
-# TODO Fix here
-# if "data" in opt_exp and opt_exp.data == "rw_to_rw_atk_noref":
-#     trainpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_train_July18.mat',
-#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_train_July18.mat']
-#     testpath = ['/media/user1/easystore/datasets/quantenna/features/dataset_non_fov_test_July18.mat',
-#                 '/media/user1/easystore/datasets/quantenna/features/dataset_fov_test_July18.mat']
-#     print('Real World to Real World experiments started')
+# LOAD DATA PATHS
 with open('data_vault.yaml') as file: 
     data_locs = yaml.safe_load(file)
 
