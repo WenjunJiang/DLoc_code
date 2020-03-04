@@ -190,7 +190,7 @@ if "train" in opt_exp.phase:
 
     print('Test Data Loaded')
 
-    if opt_exp.isTrainGen:
+    if opt_exp.isTrain:
         train_loader =torch.utils.data.DataLoader(train_data, \
                                                 batch_size=opt_gen.batch_size, \
                                                 shuffle=True)
