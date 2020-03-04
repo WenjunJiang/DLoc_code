@@ -180,7 +180,7 @@ offset_dec_model.setup(opt_offset_decoder)
 print('Making the joint_model')
 jointModel = joint_model.Enc_2Dec_Network()
 jointModel.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
-                        frozen_dec = opt_exp.isFrozen, gpu_ids = opt_exp.gpu_ids)
+                        gpu_ids = opt_exp.gpu_ids)
 
 
 
@@ -223,11 +223,6 @@ if "rw_train" in opt_exp.phase:
 
     print('Test Data Loaded')
 
-    if opt_exp.isFrozen:
-        enc_model.load_networks(opt_encoder.starting_epoch_count)
-        dec_model.load_networks(opt_decoder.starting_epoch_count)
-        offset_dec_model.load_networks(opt_offset_decoder.starting_epoch_count)
-
     if opt_exp.isTrain:
         train(jointModel, train_loader, test_loader, \
             input_index=1, output_index=2, offset_output_index=0)
@@ -255,7 +250,6 @@ elif "rw_test" in opt_exp.phase:
     dec_model.load_networks(dec_model.opt.starting_epoch_count)
     offset_dec_model.load_networks(opt_offset_decoder.starting_epoch_count)
     jointModel.initialize(opt_exp, enc_model, dec_model, offset_dec_model, \
-                            frozen_dec = opt_exp.isFrozen, \
                             gpu_ids = opt_exp.gpu_ids)
 
     test(jointModel, test_loader, input_index=1, output_index=2, \
