@@ -17,15 +17,12 @@ def train(model, loaded_data, loaded_test_data, input_index=1, output_index=2, \
             offset_output_index=0):
     total_steps = 0
     print('Training called')
-    # generator_outputs = []
-    # location_outputs = []
+
     stopping_count = 0
     for epoch in range(model.opt.starting_epoch_count+1, model.opt.n_epochs+1): # opt.niter + opt.niter_decay + 1):
-        # epoch_loss_enc = 0
         epoch_start_time = time.time()
         epoch_loss = 0
         epoch_offset_loss = 0
-        # last_weights = list(joint_model.encoder.net.parameters())[6].data.cpu().numpy()
         error =[]
         for i, data in enumerate(train_loader):
             total_steps += model.opt.batch_size
@@ -33,16 +30,12 @@ def train(model, loaded_data, loaded_test_data, input_index=1, output_index=2, \
             model.set_input(data[input_index], data[output_index], data[offset_output_index], \
                             shuffle_channel=False)
             model.optimize_parameters()
-            # enc_outputs = model.encoder.output
+
             dec_outputs = model.decoder.output
-            # off_dec_outputs = model.offset_decoder.output
+
             error.extend(utils.localization_error(dec_outputs.data.cpu().numpy(), \
                                                 data[output_index].cpu().numpy(), \
                                                 scale=0.1))
-            # generator_outputs.extend(gen_outputs.data.cpu().numpy())
-            # location_outputs.extend(loc_outputs.data.cpu().numpy())
-            # new_weights = list(joint_model.encoder.net.parameters())[6].data.cpu().numpy()
-            # last_weights = new_weights
 
             utils.write_log([str(model.decoder.loss.item())], model.decoder.model_name, \
                             log_dir=model.decoder.opt.log_dir, \
@@ -173,19 +166,6 @@ try:
 except:
     print("ERROR: Does %s exist in the data vault under correct network?"%opt_exp.data)
 
-# # if opt_exp.phase != "train" or opt_exp.isTrainGen:
-# if opt_exp.isTrainGen:
-#     enc_model = ModelADT()
-#     enc_model.initialize(opt_encoder)
-#     enc_model.setup(opt_encoder)
-
-# # if opt_exp.phase != "train" or opt_exp.isTrainLoc:
-# if opt_exp.isTrainLoc:
-#     dec_model = ModelADT()
-#     dec_model.initialize(opt_decoder)
-#     dec_model.setup(opt_decoder)
-
-# if opt_exp.phase!="train":
 enc_model = ModelADT()
 enc_model.initialize(opt_encoder)
 enc_model.setup(opt_encoder)
@@ -221,9 +201,6 @@ if "rw_train" in opt_exp.phase:
     train_loader =torch.utils.data.DataLoader(train_data, \
                                             batch_size=opt_exp.batch_size, \
                                             shuffle=True)
-    # print(A_train.shape)
-    # print(B_train.shape)
-    # print(labels_train.shape)
     dataset_size = len(train_loader)
     print('#training images = %d' % dataset_size)
 
@@ -241,9 +218,6 @@ if "rw_train" in opt_exp.phase:
     test_loader =torch.utils.data.DataLoader(test_data, \
                                             batch_size=opt_exp.batch_size, \
                                             shuffle=False)
-    # print(A_test.shape)
-    # print(B_test.shape)
-    # print(labels_test.shape)
     dataset_size = len(test_loader)
     print('#testing images = %d' % dataset_size)
 
