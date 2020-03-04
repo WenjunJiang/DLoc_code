@@ -2,14 +2,10 @@ import torch
 
 class Enc_Dec_Network():
 
-    def initialize(self, encoder, decoder, frozen_dec=False, frozen_enc=False, gpu_ids='1'):
+    def initialize(self, encoder, decoder, gpu_ids='1'):
         self.encoder = encoder
         self.decoder = decoder
-        self.frozen_dec = frozen_dec
-        self.frozen_enc = frozen_enc
         self.device = torch.device('cuda:{}'.format(gpu_ids[0])) # if self.gpu_ids else torch.device('cpu')
-        # self.encoder.net = encoder.net.to(self.device)
-        # self.decoder.net = decoder.net.to(self.device)
 
     def set_input(self, input, target, convert_enc=True, shuffle_channel=True):
         self.input = input.to(self.device)
@@ -44,10 +40,8 @@ class Enc_Dec_Network():
     def optimize_parameters(self):
         self.forward()
         self.backward()
-        if not self.frozen_enc:
-            self.encoder.optimizer.step()
-        if not self.frozen_dec:
-            self.decoder.optimizer.step()
+        self.encoder.optimizer.step()
+        self.decoder.optimizer.step()
         self.encoder.optimizer.zero_grad()
         self.decoder.optimizer.zero_grad()
 
@@ -58,18 +52,14 @@ class Enc_Dec_Network():
 
 class Enc_2Dec_Network():
 
-    def initialize(self, opt , encoder, decoder, offset_decoder, frozen_dec=False, frozen_enc=False, gpu_ids='1'):
+    def initialize(self, opt , encoder, decoder, offset_decoder, gpu_ids='1'):
         print('initializing Encoder and 2 Decoders Model')
         self.opt = opt
         self.isTrain = opt.isTrain
         self.encoder = encoder
         self.decoder = decoder
         self.offset_decoder = offset_decoder
-        self.frozen_dec = frozen_dec
-        self.frozen_enc = frozen_enc
         self.device = torch.device('cuda:{}'.format(gpu_ids[0])) # if self.gpu_ids else torch.device('cpu')
-        # self.encoder.net = encoder.net.to(self.device)
-        # self.decoder.net = decoder.net.to(self.device)
 
     def set_input(self, input, target ,offset_target ,convert_enc=True, shuffle_channel=True):
         self.input = input.to(self.device)
@@ -115,11 +105,9 @@ class Enc_2Dec_Network():
     def optimize_parameters(self):
         self.forward()
         self.backward()
-        if not self.frozen_enc:
-            self.encoder.optimizer.step()
-        if not self.frozen_dec:
-            self.decoder.optimizer.step()
-            self.offset_decoder.optimizer.step()
+        self.encoder.optimizer.step()
+        self.decoder.optimizer.step()
+        self.offset_decoder.optimizer.step()
         self.encoder.optimizer.zero_grad()
         self.decoder.optimizer.zero_grad()
         self.offset_decoder.optimizer.zero_grad()
