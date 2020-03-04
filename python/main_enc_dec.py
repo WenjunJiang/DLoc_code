@@ -144,7 +144,6 @@ try:
 except:
     print("ERROR: Does %s exist in the data vault under correct network?"%opt_exp.data)
 
-# if opt_exp.phase != "train" or opt_exp.isTrainGen:
 gen_model = modelADT.ModelADT()
 gen_model.initialize(opt_gen)
 gen_model.setup(opt_gen)
