@@ -8,7 +8,7 @@ import utils
 
 class ModelADT():
     def name(self):
-        return 'Pix2PixModel'
+        return 'DLocModel'
 
     def initialize(self, opt):
         
