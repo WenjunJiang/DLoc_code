@@ -4,8 +4,8 @@ import os
 import importlib
 from collections import OrderedDict 
 #%%
-data_dir = '/home/aarun/Research/DLoc_code/python/params/'
-data_dir_yaml = '/home/aarun/Research/DLoc_code/python/params_yaml/'
+data_dir = './python/params/'
+data_dir_yaml = './python/params_yaml/'
 files = [f for f in os.listdir(data_dir) if '.py' in f]
 # sys.path.append(data_dir)
 for fname in files: 
