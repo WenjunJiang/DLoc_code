@@ -43,11 +43,7 @@ opt_decoder:
     - '2'
     - '3'
     - '0'
-    isFrozen: false
-    isFrozen_gen: false
     isTrain: true
-    isTrainGen: true
-    isTrainLoc: true
     log_dir: ./logs/e19_real2dec_train
     n_epochs: 50
     name: e19_real2dec_train
@@ -104,11 +100,7 @@ opt_encoder:
     continue_train: false
     data: rw_to_rw
     gpu_ids: *id001
-    isFrozen: false
-    isFrozen_gen: false
     isTrain: true
-    isTrainGen: true
-    isTrainLoc: true
     log_dir: ./logs/e19_real2dec_train
     n_epochs: 50
     name: e19_real2dec_train
@@ -130,11 +122,7 @@ opt_exp:
   continue_train: false
   data: rw_to_rw
   gpu_ids: *id001
-  isFrozen: false
-  isFrozen_gen: false
   isTrain: true
-  isTrainGen: true
-  isTrainLoc: true
   log_dir: ./logs/e19_real2dec_train
   n_epochs: 50
   name: e19_real2dec_train
@@ -182,11 +170,7 @@ opt_offset_decoder:
     continue_train: false
     data: rw_to_rw
     gpu_ids: *id001
-    isFrozen: false
-    isFrozen_gen: false
     isTrain: true
-    isTrainGen: true
-    isTrainLoc: true
     log_dir: ./logs/e19_real2dec_train
     n_epochs: 50
     name: e19_real2dec_train
