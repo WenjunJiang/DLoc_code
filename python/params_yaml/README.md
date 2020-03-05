@@ -1,1 +1,101 @@
-
+# Description of Parameters
+## e15: Defines parameters for the 1 Encoder and 1 Decoder network of DLoc
+---
+- opt_exp: Defines the Master parameters for the network
+  - batch_size: Int, defines the batch size for traning and testing
+  - chackpoints_dir: String, defines the path where the trained models are saved
+  -starting_epoch_count: string or int, defines the saved model to be loaded from the checkpoints_dir, *valid strings:'best','latest'*, or any of the epoch values
+  - n_epochs: int, number of epochs to train
+  - continue_train: Bool, states whether you want to conitue training from the loaded model to the epochs defined
+  - gpu_ids: array of chars, defines the GPUs to use, the network is loaded on the gpu_ids\[0] by default
+  - isTrain: Bool, states whether to train the 1 Enc and 1 Dec model
+  - log_dir: string, defines the path for logs for each epoch
+  - name: string, defines the name of the experiment
+  - phase: string, defines whether performing training or testing and is also appended to the experiment name
+  - result_dir: string, defines the path for final results
+- opt_gen: Defines the paramters for the generatior model
+  - parent_exp: Imports all the global parameters into opt_gen
+  - base_model: string, selects model to use for Encoder and Decoder, default = 'resent2_nblocks'
+  - batch_size: Int, defines the batch size for traning and testing
+  - beta1: float, defines momentum term for Adam optimizer
+  - checkpoints_load_dir: string, defines the load path for the saved model weights
+  - checkpoints_save_dir: string, defines the save path for the model weights
+  - continue_train: Bool, states whether you want to conitue training from the loaded model to the epochs defined
+  - gpu_ids: array of chars, defines the GPUs to use, the network is loaded on the gpu_ids\[0] by default
+  - init_type: string, defines network's weight intialization, options:*normal/xavier/kaiming/orthogonal* 
+  - init_gain: float, degines the scaling factor for xavier/normal/orthogonal
+  - input_nc: int, number of input image channels (no of anchors)
+  - isTrain: Bool, states whether to train the 1 Enc and 1 Dec model
+  - lambda_L: float, weightage given to the generator
+  - lambda_cross: float, weightage for cross-entropy loss given
+  - lambda_reg: float, regularization weight for the location decoder
+  - log_dir: string, defines the path for logs for each epoch
+  - loss_type: string, loss type used for the location decoder, options: *L2/L1/L1_sumL2/L2_sumL2/L2_sumL1*
+  - lr: float, learning rate
+  - lr_decay_iters: float,  multiply bya default gamma every lr_iters
+  - lr_policy: string, learning rate decay policy, options:*lambda/step/plateau/cosine*
+  - max_dataset_size: int, maximum number of samples allowed per dataset
+  - n_epochs: int, number of epochs to train
+  - name: string, defines the name of the network
+  - net: string, defines the model to use for the 1 Enc and 1 Dec
+  - ngf: int, numbder of genreator kernels in the first conv layer
+  - niter: int, number of iterations at starting learning rate before scheduler kicks-in
+  - niter_decay: int, number of iterations to linearly decay the learning rate to zero
+  - no_dropout: Bool, no dropout for the Generaotor
+  - norm: string, type of norm layers to be used. options: *batch/instance*
+  - num_threads: int, number of threads for loading data
+  - output_nc: int, number of output image channels
+  - phase: string, defines the state of the model to run in options: *test/train*
+  - resnet_blocks: int, number of resent blocks to be used
+  - results_dir: string, defines the path to store the results in for the 1 Enc and 1 Dec model
+  - save_epoch_freq: int, defeins frequency of saving checkpoints at the end of epochs
+  - save_latest_freq: int, defines frequency of saving the latest results
+  - starting_epoch_count: string or int, defines the saved model to be loaded from the checkpoints_dir, *valid strings:'best','latest'*, or any of the epoch values
+  - suffix:string, defines customize suffixe to the model name
+  - verbose: bool, 
+  - weight_decay: float, regularization parameter for the adam aoptimizer
+---
+# Description of Parameters
+## e19: Defines parameters for the 1 Encoder and 2 Decoder network of DLoc
+#### Describes only the parameters that are different or undefined earlier
+---
+- opt_exp: same as above
+- opt_encoder: Defines the paramters for the Resnet Encoder model
+  - parent_exp: Imports all the global parameters into opt_gen
+  - isTrain: Bool, states whether to train the Encoder model
+  - loss_type: string, loss type used for the location decoder, options: *NoLoss*
+  - lr: float, learning rate
+  - name: string, defines the name of the network
+  - net: string, defines the model to use for Encoder
+  - ngf: int, numbder of genreator kernels in the first conv layer
+  - niter: int, number of iterations at starting learning rate before scheduler kicks-in
+  - niter_decay: int, number of iterations to linearly decay the learning rate to zero
+  - no_dropout: Bool, no dropout for the gnerator
+  - phase: string, defines the state of the model to run in options: *test/train*
+  - resnet_blocks: int, number of resent blocks to be used for the encoder
+- opt_offset_decoder: Defines the paramters for the Offset Decoder model
+  - parent_exp: Imports all the global parameters into opt_gen
+  - base_model: string, selects model to use for Offset Decoder, default = 'resent_decoder'
+  - isTrain: Bool, states whether to train the Offset Decoder model
+  - lambda_L: float, weight for the Offset Decoder
+  - loss_type: string, loss type used for the Offset Decoder, options: *L2_offset_loss/L1_offset_loss*
+  - lr: float, learning rate
+  - net: string, defines the model to use for Offset Decoder
+  - no_dropout: Bool, no dropout for the Offset Decoder
+  - output_nc: int, number of output image channels for Offset Decoder
+  - resnet_blocks: int, number of resent blocks to be used including encoder_res_blocks
+  - encoder_res_blocks: int, number of encoder resnet blocks used
+- opt__decoder: Defines the paramters for the Offset Location model
+  - parent_exp: Imports all the global parameters into opt_gen
+  - base_model: string, selects model to use for Location Decoder, default = 'resent_decoder'
+  - isTrain: Bool, states whether to train the Location Decoder model
+  - lambda_L: float, weightage given to the Location Decoder
+  - lambda_cross: float, weightage for cross-entropy loss given
+  - lambda_reg: float, regularization weight for the location decoder
+  - loss_type: string, loss type used for the Location Decoder, options: *L2/L1/L1_sumL2/L2_sumL2/L2_sumL1*
+  - lr: float, learning rate
+  - net: string, defines the model to use for Location Dncoder
+  - no_dropout: Bool, no dropout for the Location Decoder
+  - output_nc: int, number of output image channels for Location Decoder
+  - resnet_blocks: int, number of resent blocks to be used including encoder_res_blocks
+  - encoder_res_blocks: int, number of encoder resnet blocks used
